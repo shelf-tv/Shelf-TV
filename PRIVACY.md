@@ -2,7 +2,8 @@
 
 Shelf collects nothing about you.
 
-- **No internet access.** Shelf doesn't ask for the internet permission, so Android won't let it send anything anywhere.
+- **Only update checks.** Shelf connects to the internet for one thing: asking GitHub, every few hours, whether
+  there's a newer version, and downloading it if you choose Update. It sends nothing about you or what you watch.
 - **No accounts, ads or analytics.**
 - **Stays on your TV.** Your app order and hidden apps are kept in Shelf's private storage on the TV, and are removed
   when you uninstall it.

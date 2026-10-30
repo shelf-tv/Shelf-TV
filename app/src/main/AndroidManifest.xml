@@ -6,6 +6,13 @@
 
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
+    <!-- Over-the-air updates: Shelf asks GitHub for the latest release and hands it to
+         Android's installer. The user allows it once ("Install unknown apps"). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Android 12+: once Shelf has installed itself, later updates skip the confirm screen. -->
+    <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
+
     <!-- Android 11+ package visibility: lets us see every launchable app. -->
     <queries>
         <intent>
@@ -19,6 +26,7 @@
     </queries>
 
     <application
+        android:name=".ShelfApp"
         android:banner="@drawable/banner"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -61,5 +69,10 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/home_button_service" />
         </service>
+
+        <!-- Hears back from Android's installer while an update installs. -->
+        <receiver
+            android:name=".update.InstallResultReceiver"
+            android:exported="false" />
     </application>
 </manifest>

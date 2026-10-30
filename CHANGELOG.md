@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+- Shelf now updates itself. When a new version is out, a pop-up on the home screen offers it: choose Update now and
+  it installs in moments. Your layout and hidden apps are kept.
+- The first time, Android asks you to allow Shelf to install updates (one switch). After that, updates install with
+  one click.
+- Choose Later and a blue dot on the Settings tile reminds you. Hold OK on Settings to update, or to check for updates.
+
 ## 1.0.0
 
 First public release.

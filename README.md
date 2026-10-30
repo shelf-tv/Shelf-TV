@@ -6,7 +6,7 @@ Website: https://shelf-tv.github.io
 
 ![Shelf on a Chromecast with Google TV](https://shelf-tv.github.io/img/home.jpg)
 
-**Shelf collects nothing.** It doesn't even ask for internet access (see the [privacy note](PRIVACY.md)).
+**Shelf collects nothing.** It only goes online to check GitHub for updates (see the [privacy note](PRIVACY.md)).
 
 ## Features
 
@@ -16,6 +16,7 @@ Website: https://shelf-tv.github.io
 - **Tiles that feel like Apple TV**: a lift, a sheen and the app's name when focused.
 - **Hold OK on any app** to open, move (it wiggles; drag it with the D-pad), hide, see App Info or uninstall it.
 - **Back or Home** always jumps straight to the top.
+- **Updates itself**: when a new version is out, a pop-up offers it, and it installs in moments.
 - **Built for slow sticks**: each app's backdrop is drawn once, so nothing redraws while the screen is still.
 - **No ads, no recommendations, no account.**
 
@@ -49,7 +50,12 @@ over HDMI, the TV keeps its Home button for its own menus, and no app can change
 
 ## Updating
 
-Install the new version the same way, with the same Downloader code or address. Your app order and hidden apps are kept.
+Shelf updates itself. When a new version is out, a pop-up on the home screen offers it: choose **Update now**. The first
+time, Android asks you to allow Shelf to install updates (one switch); after that, it's one click. Choose **Later** and a
+blue dot on the Settings tile reminds you. Your app order and hidden apps are kept.
+
+Shelf 1.0.0 doesn't have the updater yet: update it once with the Downloader code or address, and from then on it's
+automatic.
 
 ## Build
 
@@ -68,4 +74,7 @@ maintainer's key). Uninstall the release first.
 
 Bump `versionCode` and `versionName` in `app/build.gradle.kts`, add the version to [CHANGELOG.md](CHANGELOG.md), commit,
 then run `./scripts/release.sh`. It builds and signs the APK, tags the version and publishes a GitHub Release with
-`shelf.apk` attached, so the website's `/get` address picks it up straight away.
+`shelf.apk` attached. The website's `/get` address and the Downloader code pick it up straight away, and every Shelf on a
+TV offers it within a few hours.
+
+The website is its own repo: [shelf-tv/shelf-tv.github.io](https://github.com/shelf-tv/shelf-tv.github.io).

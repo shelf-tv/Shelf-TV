@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
@@ -121,9 +123,11 @@ fun SettingsTile(
     onFocused: () -> Unit,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
+    /** A blue dot, like tvOS's: something's waiting (an update) in the long-press menu. */
+    badge: Boolean = false,
 ) {
     TileFrame(
-        label = "Settings",
+        label = if (badge) "Settings · Update ready" else "Settings",
         width = width,
         height = height,
         background = Color.White.copy(alpha = 0.14f),
@@ -138,6 +142,16 @@ fun SettingsTile(
             modifier = Modifier.align(Alignment.Center).size(height * 0.42f),
             colorFilter = ColorFilter.tint(Color.White),
         )
+        if (badge) {
+            Box(
+                Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(10.dp)
+                    .size(12.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFF0A84FF)),
+            )
+        }
     }
 }
 

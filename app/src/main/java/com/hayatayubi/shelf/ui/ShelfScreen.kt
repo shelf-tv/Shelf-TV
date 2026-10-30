@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
@@ -52,6 +53,7 @@ import androidx.tv.material3.darkColorScheme
 import com.hayatayubi.shelf.AppEntry
 import com.hayatayubi.shelf.Backdrop
 import com.hayatayubi.shelf.HomeButtonService
+import com.hayatayubi.shelf.ShelfApp
 import com.hayatayubi.shelf.ShelfViewModel
 import kotlinx.coroutines.launch
 
@@ -98,6 +100,15 @@ fun ShelfScreen(vm: ShelfViewModel) {
     // A tile that changed rows and should take focus again once it's recomposed there.
     var followKey by remember { mutableStateOf<String?>(null) }
     var menu by remember { mutableStateOf<Menu?>(null) }
+
+    val updates = remember { (context.applicationContext as ShelfApp).updates }
+    val update by updates.available.collectAsState()
+    var showUpdate by remember { mutableStateOf(false) }
+    // Pops up once per new version; "Later" leaves a dot on the Settings tile instead.
+    LaunchedEffect(update, vm.loaded) {
+        val release = update ?: return@LaunchedEffect
+        if (vm.loaded && updates.shouldPrompt(release) && menu == null && movingKey == null) showUpdate = true
+    }
     var didInitialFocus by remember { mutableStateOf(false) }
 
     fun focus(key: String?) {
@@ -209,6 +220,7 @@ fun ShelfScreen(vm: ShelfViewModel) {
                                                 onFocused = onFocused,
                                                 onClick = { start(context, Intent(Settings.ACTION_SETTINGS)) },
                                                 onLongClick = { menu = SettingsMenu },
+                                                badge = update != null,
                                             )
                                         }
                                     }
@@ -263,6 +275,20 @@ fun ShelfScreen(vm: ShelfViewModel) {
             SettingsMenu -> OptionsDialog(
                 title = "Shelf",
                 options = buildList {
+                    val release = update
+                    if (release != null) {
+                        add("Update to ${release.version}" to { showUpdate = true })
+                    } else {
+                        add("Check for Updates" to {
+                            updates.checkInBackground(force = true) {
+                                if (updates.available.value != null) {
+                                    showUpdate = true
+                                } else {
+                                    Toast.makeText(context, "Shelf ${updates.currentVersion} is up to date", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        })
+                    }
                     if (!HomeButtonService.isEnabled(context)) {
                         add("Set Up Home Button" to { start(context, Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) })
                     }
@@ -273,6 +299,18 @@ fun ShelfScreen(vm: ShelfViewModel) {
                 onDismiss = { menu = null },
             )
             null -> Unit
+        }
+
+        val release = update
+        if (showUpdate && release != null) {
+            UpdateDialog(
+                updates = updates,
+                release = release,
+                onLater = {
+                    updates.snooze(release)
+                    showUpdate = false
+                },
+            )
         }
     }
 }

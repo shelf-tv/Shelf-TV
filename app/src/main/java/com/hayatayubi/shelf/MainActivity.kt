@@ -33,6 +33,8 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.refresh()
+        // Is there a newer Shelf on GitHub? (At most every few hours; the home screen offers it.)
+        (application as ShelfApp).updates.checkInBackground()
     }
 
     override fun onNewIntent(intent: Intent) {
