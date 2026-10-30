@@ -2,9 +2,9 @@
 
 An Apple TV–style home screen for Google TV and Android TV. It's calm, fast and ad-free, and built for
 the Chromecast with Google TV. Written in Kotlin with Jetpack Compose for TV.
-Website: https://hayatayubi.github.io/shelf-tv
+Website: https://shelf-tv.github.io
 
-![Shelf on a Chromecast with Google TV](docs/img/home.jpg)
+![Shelf on a Chromecast with Google TV](https://shelf-tv.github.io/img/home.jpg)
 
 **Shelf collects nothing.** It doesn't even ask for internet access (see the [privacy note](PRIVACY.md)).
 
@@ -25,7 +25,8 @@ Shelf isn't on the Play Store. You install it with the free **Downloader** app:
 
 1. On the TV, install **Downloader** (by AFTVnews) from the Play Store.
 2. Allow it to install apps: *Settings → Apps → Security & restrictions → Unknown sources → Downloader*.
-3. Open Downloader and enter `hayatayubi.github.io/shelf-tv/get` (it always gives the newest version).
+3. Open Downloader and enter the code **`8063834`**, then choose **Download Shelf** on the page that opens. Or enter
+   `shelf-tv.github.io/get` to download straight away (it always gives the newest version).
 4. Choose **Install**. Shelf appears in your apps.
 
 ### Making Shelf your Home screen
@@ -38,7 +39,7 @@ Google TV keeps its own home screen in charge of the Home button, so there are t
   `adb` and *Wireless debugging* turned on in the TV's developer options.
 
   ```sh
-  git clone https://github.com/hayatayubi/shelf-tv && cd shelf-tv
+  git clone https://github.com/shelf-tv/Shelf-TV && cd Shelf-TV
   ./scripts/install.sh <tv-ip>:<port>     # installs the latest Shelf and makes it Home
   ./scripts/restore.sh <tv-ip>:<port>     # puts the Google TV home screen back
   ```
@@ -48,7 +49,7 @@ over HDMI, the TV keeps its Home button for its own menus, and no app can change
 
 ## Updating
 
-Install the new version the same way, with Downloader and the same address. Your app order and hidden apps are kept.
+Install the new version the same way, with the same Downloader code or address. Your app order and hidden apps are kept.
 
 ## Build
 

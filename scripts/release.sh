@@ -5,7 +5,7 @@
 #
 # Bump versionCode and versionName in app/build.gradle.kts and add a "## <version>" section to
 # CHANGELOG.md first. The APK is attached as shelf.apk, so
-# https://github.com/hayatayubi/shelf-tv/releases/latest/download/shelf.apk (and the website's /get
+# https://github.com/shelf-tv/Shelf-TV/releases/latest/download/shelf.apk (and the website's /get
 # page) always gives the newest version.
 #
 # Signing uses ~/.android/shelf-release.properties (or $SHELF_SIGNING). That key must be the same

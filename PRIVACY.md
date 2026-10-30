@@ -9,4 +9,4 @@ Shelf collects nothing about you.
 - **Home Button service (optional).** If you turn it on, Shelf listens for the remote's Home button and notices when
   the stock home screen opens, so it can show Shelf instead. It can't read what's on screen.
 
-Questions: open an issue at https://github.com/hayatayubi/shelf-tv/issues.
+Questions: open an issue at https://github.com/shelf-tv/Shelf-TV/issues.

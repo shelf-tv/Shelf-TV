@@ -16,7 +16,7 @@ MODE="${2:-}"
 SHELF="com.hayatayubi.shelf"
 STOCK_LAUNCHER="com.google.android.apps.tv.launcherx"
 SETUP_FALLBACK="com.google.android.tungsten.setupwraith"
-LATEST="https://github.com/hayatayubi/shelf-tv/releases/latest/download/shelf.apk"
+LATEST="https://github.com/shelf-tv/Shelf-TV/releases/latest/download/shelf.apk"
 
 # Use $SHELF_APK, else a local build, else the latest release.
 APK="${SHELF_APK:-$(cd "$(dirname "$0")/.." && pwd)/app/build/outputs/apk/release/app-release.apk}"

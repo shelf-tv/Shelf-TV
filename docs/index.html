@@ -7,7 +7,8 @@
 <meta name="description" content="Shelf is a calm, fast, ad-free home screen for Google TV and Android TV, inspired by Apple TV. Free, with no account and no tracking.">
 <meta property="og:title" content="Shelf: an Apple TV–style home screen for Google TV">
 <meta property="og:description" content="A calm, fast, ad-free home screen for your TV. Free, private, and installed in a minute.">
-<meta property="og:image" content="https://hayatayubi.github.io/shelf-tv/img/home.jpg">
+<meta property="og:image" content="https://shelf-tv.github.io/img/home.jpg">
+<meta property="og:url" content="https://shelf-tv.github.io">
 <meta name="theme-color" content="#0d0f14">
 <style>
   /* Inter, self-hosted (no font requests to anyone else). OFL, see fonts/LICENSE.txt. */
@@ -132,6 +133,7 @@
   .install li { counter-increment:s; border-radius:22px; padding:26px 22px; background:var(--glass); border:1px solid var(--edge); font-size:16px; color:var(--muted); }
   .install li::before { content:counter(s); display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:#fff; color:#0d0f14; font-weight:600; margin-bottom:16px; }
   .install li strong { color:var(--text); font-weight:600; }
+  .install .addr.code { font-size:26px; letter-spacing:.06em; padding:8px 16px; margin-bottom:8px; }
   .install .addr { display:inline-block; margin-top:8px; padding:6px 12px; border-radius:10px; background:rgba(255,255,255,.12); color:#fff; font-weight:600; }
   .install .tip { margin:28px 0 0; color:var(--muted); font-size:15px; text-align:center; }
   .install .tip b { color:var(--text); font-weight:600; }
@@ -169,7 +171,7 @@
     <nav class="nav-links">
       <a class="hide-sm" href="#features">Features</a>
       <a class="hide-sm" href="#faq">FAQ</a>
-      <a class="hide-sm" href="https://github.com/hayatayubi/shelf-tv">GitHub</a>
+      <a class="hide-sm" href="https://github.com/shelf-tv/Shelf-TV">GitHub</a>
       <a class="pill" href="#get">Get Shelf</a>
     </nav>
   </div>
@@ -181,7 +183,7 @@
       <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5"/><path d="M4 19h16"/></svg></span>
       <div>
         <strong>Shelf is ready for your TV</strong>
-        <span>Install it on any Google TV or Android TV with the free Downloader app: enter <code>hayatayubi.github.io/shelf-tv/get</code></span>
+        <span>Install it on any Google TV or Android TV with the free Downloader app: enter code <code>8063834</code> or <code>shelf-tv.github.io/get</code></span>
       </div>
     </div>
   </div>
@@ -190,8 +192,9 @@
     <h1>Your TV, <span class="grad">beautifully calm.</span></h1>
     <p class="lead">An Apple TV–style home screen for Google TV. Just your apps, lit by their own colours. No ads, no clutter.</p>
     <div class="ctas">
-      <a class="pill" href="#get">Get Shelf</a>
-      <a class="pill ghost" href="#features">See what's inside</a>
+      <!-- First on the page and focused, so it's one press away when Downloader opens this page from the code. -->
+      <a class="pill" href="get/" autofocus><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5"/><path d="M4 19h16"/></svg>Download Shelf</a>
+      <a class="pill ghost" href="#get">How to install</a>
     </div>
     <div class="tv" style="margin-top:64px">
       <div class="screen"><img src="img/home.jpg" alt="Shelf's home screen with YouTube focused: a large title over a soft red glow, and app tiles below" width="1600" height="900"></div>
@@ -252,15 +255,16 @@
         <ol>
           <li>Install the free <strong>Downloader</strong> app from your TV's Play Store.</li>
           <li>Let Downloader install apps. Most TVs ask the first time; if not, see the tip below.</li>
-          <li>Open Downloader and enter the address:<br><span class="addr">hayatayubi.github.io/<wbr>shelf-tv/get</span></li>
+          <li>Open Downloader and enter the code:<br><span class="addr code">8063834</span><br>then choose <strong>Download Shelf</strong> on the page that opens.</li>
           <li>Choose <strong>Install</strong>, then open Shelf from your apps. That's it.</li>
         </ol>
+        <p class="tip">Prefer typing? Enter <b>shelf-tv.github.io/get</b> in Downloader and it downloads straight away.</p>
         <p class="tip">Tip: on Google TV and Android TV it's <b>Settings → Apps → Security &amp; restrictions → Unknown sources</b>.</p>
 
         <div class="home-note">
           <h3>Make Shelf your Home screen</h3>
           <p><strong>On the TV:</strong> go to <b>Settings → System → Accessibility → Shelf Home Button</b> and turn it on. Pressing Home now brings you to Shelf.</p>
-          <p><strong>With a computer:</strong> for a full swap you can undo any time, run <a href="https://github.com/hayatayubi/shelf-tv#making-shelf-your-home-screen">Shelf's install script</a> with Wireless debugging turned on.</p>
+          <p><strong>With a computer:</strong> for a full swap you can undo any time, run <a href="https://github.com/shelf-tv/Shelf-TV#making-shelf-your-home-screen">Shelf's install script</a> with Wireless debugging turned on.</p>
         </div>
       </div>
     </div>
@@ -291,11 +295,11 @@
         </details>
         <details>
           <summary>How do I update it?</summary>
-          <p>Enter the same address in Downloader and choose Install. Your app order and hidden apps are kept.</p>
+          <p>Enter the same code (<code>8063834</code>) in Downloader, choose Download Shelf, then Install. Your app order and hidden apps are kept.</p>
         </details>
         <details>
           <summary>What does Shelf know about me?</summary>
-          <p>Nothing. Shelf has no internet permission, so it can't send anything anywhere. Your layout stays on your TV. <a href="https://github.com/hayatayubi/shelf-tv/blob/main/PRIVACY.md" style="color:#9fc9ff">Privacy note</a>.</p>
+          <p>Nothing. Shelf has no internet permission, so it can't send anything anywhere. Your layout stays on your TV. <a href="https://github.com/shelf-tv/Shelf-TV/blob/main/PRIVACY.md" style="color:#9fc9ff">Privacy note</a>.</p>
         </details>
       </div>
     </div>
@@ -305,7 +309,7 @@
 <footer>
   <div class="wrap">
     <span>Shelf. Made with care for slow streaming sticks.</span>
-    <span><a href="https://github.com/hayatayubi/shelf-tv">Source on GitHub</a> · <a href="https://github.com/hayatayubi/shelf-tv/releases">Releases</a> · <a href="https://github.com/hayatayubi/shelf-tv/blob/main/PRIVACY.md">Privacy</a></span>
+    <span><a href="https://github.com/shelf-tv/Shelf-TV">Source on GitHub</a> · <a href="https://github.com/shelf-tv/Shelf-TV/releases">Releases</a> · <a href="https://github.com/shelf-tv/Shelf-TV/blob/main/PRIVACY.md">Privacy</a></span>
   </div>
 </footer>
 
