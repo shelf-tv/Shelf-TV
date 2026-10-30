@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+- Fixed: holding OK on an app opened it as soon as you let go, instead of leaving its options open to choose from.
+  The options now stay up until you pick one.
+
 ## 1.1.0
 
 - Shelf now updates itself. When a new version is out, a pop-up on the home screen offers it: choose Update now and

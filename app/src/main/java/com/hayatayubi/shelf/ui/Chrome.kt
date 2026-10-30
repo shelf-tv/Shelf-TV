@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -21,6 +22,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -88,9 +94,17 @@ fun MoveHint(modifier: Modifier = Modifier) {
 @Composable
 fun OptionsDialog(title: String, options: List<Pair<String, () -> Unit>>, onDismiss: () -> Unit) {
     val first = remember { FocusRequester() }
+    // The menu opens while OK is still held. Ignore that press (its repeats and its release) until
+    // OK is pressed afresh, or letting go would choose the first option straight away.
+    var okArmed by remember { mutableStateOf(false) }
     Dialog(onDismissRequest = onDismiss) {
         Column(
             Modifier
+                .onPreviewKeyEvent { event ->
+                    if (event.key !in OkKeys) return@onPreviewKeyEvent false
+                    if (event.type == KeyEventType.KeyDown && event.nativeKeyEvent.repeatCount == 0) okArmed = true
+                    !okArmed
+                }
                 .width(340.dp)
                 .clip(RoundedCornerShape(24.dp))
                 .background(Color(0xFF1E1E22))
@@ -127,3 +141,5 @@ fun OptionsDialog(title: String, options: List<Pair<String, () -> Unit>>, onDism
         runCatching { first.requestFocus() }
     }
 }
+
+private val OkKeys = setOf(Key.DirectionCenter, Key.Enter, Key.NumPadEnter)
