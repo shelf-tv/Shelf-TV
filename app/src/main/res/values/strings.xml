@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Shelf</string>
+    <string name="home_service_label">Shelf Home Button</string>
+    <string name="home_service_description">Makes the remote\'s Home button open Shelf instead of the Google TV home screen. Shelf only listens for the Home button and never reads what\'s on screen.</string>
+</resources>

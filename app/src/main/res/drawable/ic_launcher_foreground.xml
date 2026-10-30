@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Hero panel over a row of three tiles. -->
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M38,36h32a4,4 0,0 1,4 4v12a4,4 0,0 1,-4 4h-32a4,4 0,0 1,-4 -4v-12a4,4 0,0 1,4 -4z" />
+    <path android:fillColor="#B3FFFFFF"
+        android:pathData="M36,61h8a2,2 0,0 1,2 2v6a2,2 0,0 1,-2 2h-8a2,2 0,0 1,-2 -2v-6a2,2 0,0 1,2 -2z" />
+    <path android:fillColor="#B3FFFFFF"
+        android:pathData="M50,61h8a2,2 0,0 1,2 2v6a2,2 0,0 1,-2 2h-8a2,2 0,0 1,-2 -2v-6a2,2 0,0 1,2 -2z" />
+    <path android:fillColor="#B3FFFFFF"
+        android:pathData="M64,61h8a2,2 0,0 1,2 2v6a2,2 0,0 1,-2 2h-8a2,2 0,0 1,-2 -2v-6a2,2 0,0 1,2 -2z" />
+</vector>
