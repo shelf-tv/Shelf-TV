@@ -41,9 +41,12 @@ Google TV keeps its own home screen in charge of the Home button, so there are t
 
   ```sh
   git clone https://github.com/shelf-tv/Shelf-TV && cd Shelf-TV
-  ./scripts/install.sh <tv-ip>:<port>     # installs the latest Shelf and makes it Home
+  ./scripts/install.sh <tv-ip>:<port>     # downloads the latest Shelf from GitHub and makes it Home
   ./scripts/restore.sh <tv-ip>:<port>     # puts the Google TV home screen back
   ```
+
+  Add `--no-home` to install without changing the home screen, or `--local` to install your own build. If the TV has a
+  Shelf signed with a different key (one you built yourself), the script offers to uninstall it first.
 
 The Home button has to come from a remote paired with the streaming device itself. If your TV's own remote controls it
 over HDMI, the TV keeps its Home button for its own menus, and no app can change that.

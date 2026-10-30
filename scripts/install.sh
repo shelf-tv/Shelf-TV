@@ -1,30 +1,43 @@
 #!/usr/bin/env bash
-# Install Shelf on a Chromecast with Google TV over Wi-Fi and make it the Home screen.
+# Install the latest Shelf from GitHub on a Google TV over Wi-Fi and make it the Home screen.
 #
-#   ./scripts/install.sh 192.168.1.42:37xxx            # install + replace the Google TV home screen
-#   ./scripts/install.sh 192.168.1.42:37xxx --no-home  # install only (open it from Apps / a button remap)
+#   ./scripts/install.sh 192.168.1.42:37xxx            # latest release + replace the Google TV home screen
+#   ./scripts/install.sh 192.168.1.42:37xxx --no-home  # install only (open it from Apps)
+#   ./scripts/install.sh 192.168.1.42:37xxx --local    # your own build (./gradlew assembleRelease) instead
 #
 # Use the IP & port from Developer options → Wireless debugging (pair once first; see README).
-# A bare IP means the legacy port 5555.
+# A bare IP means the legacy port 5555. Set SHELF_APK=/path/to/shelf.apk to install a specific file.
 #
-# Undo any time with ./scripts/restore.sh <ip>.
+# Undo any time with ./scripts/restore.sh <ip:port>.
 set -euo pipefail
 
-TARGET="${1:?usage: install.sh <chromecast-ip[:port]> [--no-home]}"
+usage="usage: install.sh <tv-ip[:port]> [--no-home] [--local]"
+TARGET="" NO_HOME=false LOCAL=false
+for arg in "$@"; do
+  case "$arg" in
+    --no-home) NO_HOME=true ;;
+    --local) LOCAL=true ;;
+    -*) echo "$usage"; exit 1 ;;
+    *) TARGET="$arg" ;;
+  esac
+done
+[[ -n "$TARGET" ]] || { echo "$usage"; exit 1; }
 [[ "$TARGET" == *:* ]] || TARGET="$TARGET:5555"
-MODE="${2:-}"
 SHELF="com.hayatayubi.shelf"
 STOCK_LAUNCHER="com.google.android.apps.tv.launcherx"
 SETUP_FALLBACK="com.google.android.tungsten.setupwraith"
 LATEST="https://github.com/shelf-tv/Shelf-TV/releases/latest/download/shelf.apk"
 
-# Use $SHELF_APK, else a local build, else the latest release.
-APK="${SHELF_APK:-$(cd "$(dirname "$0")/.." && pwd)/app/build/outputs/apk/release/app-release.apk}"
-if [[ ! -f "$APK" ]]; then
+if [[ -n "${SHELF_APK:-}" ]]; then
+  APK="$SHELF_APK"
+elif $LOCAL; then
+  APK="$(cd "$(dirname "$0")/.." && pwd)/app/build/outputs/apk/release/app-release.apk"
+else
   APK="$(mktemp -d)/shelf.apk"
-  echo "→ Downloading the latest Shelf…"
+  echo "→ Downloading the latest Shelf from GitHub…"
   curl -fsSL "$LATEST" -o "$APK" || { echo "Couldn't download $LATEST"; exit 1; }
 fi
+[[ -f "$APK" ]] || { echo "No APK at $APK. Build it first with ./gradlew assembleRelease."; exit 1; }
 
 echo "→ Connecting to $TARGET… (accept the 'Allow debugging?' prompt on the TV, ticking 'Always allow')"
 adb connect "$TARGET" >/dev/null
@@ -36,12 +49,29 @@ done
 ADB=(adb -s "$TARGET")
 
 echo "→ Installing Shelf…"
-"${ADB[@]}" install -r "$APK" >/dev/null
+if ! out="$("${ADB[@]}" install -r "$APK" 2>&1)"; then
+  if [[ "$out" == *INSTALL_FAILED_UPDATE_INCOMPATIBLE* ]]; then
+    # A Shelf signed with a different key (e.g. a copy you built yourself) is already on the TV.
+    # Android only replaces an app with one signed by the same key, so it has to go first.
+    echo
+    echo "  The Shelf on this TV is signed differently from this one, so Android won't update it."
+    echo "  Uninstalling it fixes that, but resets Shelf's app order and hidden apps (nothing else on the TV)."
+    read -r -p "  Uninstall the old Shelf and install this one? [y/N] " answer
+    [[ "$answer" == [yY]* ]] || { echo "Nothing changed."; exit 1; }
+    "${ADB[@]}" uninstall "$SHELF" >/dev/null
+    "${ADB[@]}" install "$APK" >/dev/null
+  else
+    echo "$out"
+    exit 1
+  fi
+fi
+version="$("${ADB[@]}" shell dumpsys package "$SHELF" | grep -m1 versionName= | sed 's/.*versionName=//' | tr -d '\r ')"
+echo "→ Installed Shelf $version"
 # Compile ahead of time so the first scroll isn't running interpreted code.
 echo "→ Optimising for this device…"
 "${ADB[@]}" shell cmd package compile -m speed -f "$SHELF" >/dev/null
 
-if [[ "$MODE" == "--no-home" ]]; then
+if $NO_HOME; then
   echo "✓ Installed. Open Shelf from Google TV's Apps row."
   exit 0
 fi
@@ -69,5 +99,6 @@ if [[ "$(home)" == "$SHELF" ]]; then
     echo "  on the TV, Settings → System → Accessibility → Shelf Home Button → turn it on."
   fi
 else
-  echo "! Home still resolves to '$(home)'. Run ./scripts/restore.sh $TARGET and send me this output."
+  echo "! Home still resolves to '$(home)'. Run ./scripts/restore.sh $TARGET, and open an issue at"
+  echo "  https://github.com/shelf-tv/Shelf-TV/issues with this output."
 fi
